@@ -1,0 +1,10 @@
+build
+config.*
+depcomp
+.git
+install-sh
+ltmain.sh
+missing
+autom4te*
+*.root
+*~
