@@ -6,5 +6,6 @@ install-sh
 ltmain.sh
 missing
 autom4te*
+autom4te/
 *.root
 *~
