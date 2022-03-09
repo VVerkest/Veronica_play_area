@@ -9,3 +9,10 @@ autom4te*
 autom4te/
 *.root
 *~
+*.list
+*.la
+*.lo
+libtool
+testexternals*
+auto*
+autom4te.cache/requests

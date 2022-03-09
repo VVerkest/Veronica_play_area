@@ -20,7 +20,7 @@ using namespace std;
 //____________________________________
 analysis::analysis(const string &name):
     SubsysReco(name),
-    _flags( NONE )
+    _flags( ALL )
 { 
  //initialize
  _event = 0;
@@ -36,9 +36,12 @@ int analysis::Init(PHCompositeNode *topNode)
  cout << PHWHERE << " Openning file " << _outfile << endl;
  PHTFileServer::get().open( _outfile, "RECREATE");
 
- if(_flags & TRUTH) _truth = new TNtuple("truth","truth","event:Energy:Rapidity:Pt:Phi:PID");
- if(_flags & HIST ) create_histos();
- if(_flags & SF ) _sf = new TNtuple("sf","sf","event:sfhcalin:sfhcalout:sfcemc");
+ //if(_flags & TRUTH)  
+ _truth = new TNtuple("truth","truth","event:Energy:Rapidity:Pt:Phi:PID");
+ //if(_flags & HIST ) 
+ create_histos();
+ //if(_flags & SF ) 
+ _sf = new TNtuple("sf","sf","event:sfhcalin:sfhcalout:sfcemc");
  return 0;
 }
 
@@ -53,7 +56,7 @@ int analysis::process_event(PHCompositeNode *topNode)
  
  if(_flags & HIST) fill_histos(topNode);
 
- if(_flags & SF) fill_sf_ntuple(topNode);
+ //if(_flags & SF) fill_sf_ntuple(topNode);
 
  return 0;
 }
@@ -262,14 +265,15 @@ void analysis::GetNodes(PHCompositeNode *topNode)
 int analysis::End(PHCompositeNode *topNode)
 {
  PHTFileServer::get().cd( _outfile );
- if( _truth ) _truth->Write();
- if( _sf ) _sf->Write();
- if(_flags & HIST)
- {
+ if( _truth ) 
+ _truth->Write();
+ if( _sf )
+ _sf->Write();
+ //if(_flags & HIST) {
  Fun4AllServer *se = Fun4AllServer::instance();
  Fun4AllHistoManager *hm = se->getHistoManager("HISTOS");
  for(unsigned int i=0; i<hm->nHistos(); i++) hm->getHisto(i)->Write();
- }
+ //}
  return 0;
 }
 
